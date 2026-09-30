@@ -21,6 +21,7 @@ import {
   Clock,
   CircleDollarSign
 } from 'lucide-react';
+import LiveVideoPanel from './LiveVideoPanel.jsx';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('live');
@@ -178,91 +179,14 @@ export default function App() {
         {activeTab === 'live' && (
           <div className="flex-1 flex flex-col">
             
-            {/* Live Video Viewport (PK Mode) */}
-            <div className="relative aspect-[4/3] bg-slate-900 border-b border-slate-800 overflow-hidden group">
-              
-              {/* PK Split Screens */}
-              <div className="absolute inset-0 grid grid-cols-2">
-                
-                {/* Host 1 Screen */}
-                <div className="relative border-r border-slate-800/80 bg-slate-900 flex flex-col justify-end p-2 overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" 
-                    alt="Host 1" 
-                    className="absolute inset-0 w-full h-full object-cover opacity-80"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/40" />
-                  
-                  <div className="relative z-10">
-                    <span className="inline-block px-2 py-0.5 bg-red-600/90 text-[10px] font-bold rounded-full mb-1">
-                      HOST 1
-                    </span>
-                    <p className="font-bold text-sm text-white drop-shadow">Sarah Live</p>
-                    <p className="text-[11px] text-amber-300 font-medium">🔥 {host1Points.toLocaleString()} pts</p>
-                  </div>
-                </div>
-
-                {/* Host 2 Screen */}
-                <div className="relative bg-slate-900 flex flex-col justify-end p-2 overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" 
-                    alt="Host 2" 
-                    className="absolute inset-0 w-full h-full object-cover opacity-80"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/40" />
-                  
-                  <div className="relative z-10 text-right">
-                    <span className="inline-block px-2 py-0.5 bg-blue-600/90 text-[10px] font-bold rounded-full mb-1">
-                      HOST 2
-                    </span>
-                    <p className="font-bold text-sm text-white drop-shadow">DJ Eagle</p>
-                    <p className="text-[11px] text-blue-300 font-medium">{host2Points.toLocaleString()} pts 🔥</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Center VS & Timer Badge */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
-                <div className="bg-slate-950/90 border border-amber-500/50 text-amber-400 text-xs font-black px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur">
-                  <Swords className="w-3.5 h-3.5 text-amber-400" />
-                  <span>PK BATTLE</span>
-                  <span className="text-slate-500">|</span>
-                  <Clock className="w-3 h-3 text-red-400" />
-                  <span className="text-red-400 font-mono">{formatTime(pkTimeLeft)}</span>
-                </div>
-              </div>
-
-              {/* Dynamic Animated Gift Overlay FX */}
-              {activeGiftOverlay && (
-                <div className="absolute inset-0 z-30 pointer-events-none flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] animate-gift-bounce">
-                  <div className="text-6xl mb-2 filter drop-shadow-[0_0_20px_rgba(245,158,11,0.8)]">
-                    {activeGiftOverlay.icon}
-                  </div>
-                  <div className="bg-gradient-to-r from-amber-500 via-yellow-400 to-orange-500 text-slate-950 font-black px-4 py-1.5 rounded-full text-sm shadow-xl uppercase tracking-wider">
-                    {activeGiftOverlay.name} Blast!
-                  </div>
-                  <p className="text-xs text-white mt-1 font-semibold drop-shadow">
-                    {activeGiftOverlay.sender} gifted <span className="text-amber-300">{activeGiftOverlay.targetHost}</span>
-                  </p>
-                </div>
-              )}
-
-              {/* Tug-Of-War Progress Bar */}
-              <div className="absolute bottom-0 inset-x-0 h-3 bg-slate-950 flex border-t border-slate-800">
-                <div 
-                  className="h-full bg-gradient-to-r from-red-600 to-amber-500 transition-all duration-500 flex items-center justify-start pl-1"
-                  style={{ width: `${host1Percent}%` }}
-                >
-                  <span className="text-[9px] font-black text-white">{host1Percent}%</span>
-                </div>
-                <div 
-                  className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-500 flex items-center justify-end pr-1"
-                  style={{ width: `${host2Percent}%` }}
-                >
-                  <span className="text-[9px] font-black text-white">{host2Percent}%</span>
-                </div>
-              </div>
-            </div>
+            <LiveVideoPanel
+              host1Points={host1Points}
+              host2Points={host2Points}
+              host1Percent={host1Percent}
+              host2Percent={host2Percent}
+              pkTimeLeft={formatTime(pkTimeLeft)}
+              activeGiftOverlay={activeGiftOverlay}
+            />
 
             {/* Room Multi-Mic Seats */}
             <div className="p-3 bg-slate-900/60 border-b border-slate-800">
