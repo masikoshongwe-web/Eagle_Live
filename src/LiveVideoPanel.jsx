@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Mic, MicOff, Video, VideoOff, LogOut } from 'lucide-react';
-import { Room, RoomEvent, Track } from 'livekit-client';
 
 const roomSlotForIdentity = (identity) => {
   if (identity === 'host-1') return 'host1';
@@ -127,6 +126,7 @@ export default function LiveVideoPanel({
         throw new Error(tokenBody.error || 'Could not get a live video connection.');
       }
 
+      const { Room, RoomEvent, Track } = await import('livekit-client');
       room = new Room({ adaptiveStream: true, dynacast: true });
       roomRef.current = room;
 

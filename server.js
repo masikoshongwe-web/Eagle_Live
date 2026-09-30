@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import express from 'express';
 import { rateLimit } from 'express-rate-limit';
-import { AccessToken } from 'livekit-server-sdk';
+import { AccessToken, TrackSource } from 'livekit-server-sdk';
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -87,7 +87,9 @@ app.post('/api/livekit/token', tokenRateLimit, async (request, response) => {
       room: roomName,
       canSubscribe: true,
       canPublish: isHost,
-      ...(isHost ? { canPublishSources: ['camera', 'microphone'] } : {}),
+      ...(isHost ? {
+        canPublishSources: [TrackSource.CAMERA, TrackSource.MICROPHONE],
+      } : {}),
     });
 
     response.set('Cache-Control', 'no-store');
